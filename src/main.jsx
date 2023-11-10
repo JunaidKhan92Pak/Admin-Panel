@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import {BrowserRouter} from 'react-router-dom'
+import { render } from "react-dom";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+render(
   <React.StrictMode>
   <BrowserRouter>
+
     <App />
   </BrowserRouter>  
-  </React.StrictMode>
-)
+
+  </React.StrictMode>,
+  document.getElementById("root")
+);

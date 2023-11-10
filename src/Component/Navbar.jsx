@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom"
 const Navbar = () =>{
     return (
         <div className="bg-[#f1f1f1] flex">
-  <div className="h-screen  justify-between items-center flex flex-col bg-white min-h-screen p-4 w-[15%]">
+  <div className="h-screen  justify-between items-center flex flex-col bg-white min-h-screen p-4 w-[15%] sticky top-0">
     <div>
       <h1 className="font-bold text-blue-800 text-xl">Hamdan</h1>
     </div>
