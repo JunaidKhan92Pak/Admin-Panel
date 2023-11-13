@@ -1,36 +1,74 @@
 import TextEditor from "./TextEditor"
-
+import React, { useState } from 'react';
 
 const NewPost =()=>{
-    return (
+      
+   const [image, setImage] = useState('');
+  const [title, setTitle] = useState('');
+  const [metatitle, setMetatitle] = useState('');
+
+  const [description, setDescription] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("handleSubmit")
+    console.log(image,title,description)
+    
+    // Create FormData object to send files and other data
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('title', title);
+    formData.append('Metatitle', metatitle);
+    formData.append('description', description);
+
+     
+  //   try {
+  //     const response = await fetch('https://de-backend-chi.vercel.app//blog/', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+
+  //     if (response.ok) {
+  //       // Handle success
+  //       console.log('Data submitted successfully');
+  //     } else {
+  //       // Handle error
+  //       console.error('Failed to submit data');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting data:', error);
+  //   }
+  };
+
+
+  
+  return (
+
         <div className="flex justify-center items-center w-[85%]">
 {/* component */}
 <div className="flex items-center justify-center px-12 py-3 w-full ">
   {/* Author: FormBold Team */}
   {/* Learn More: https://formbold.com */}
   <div className="mx-auto w-full max-w-auto">
-    <div>
+  <form onSubmit={handleSubmit}>
+  <div>
     <div className="">
 
     <h1 className="text-2xl">Add New Post</h1>
     </div>
     
-    <div>
-    
-    <article aria-label="File Upload Modal" className="relative h-full flex flex-col rounded-md">
-    
-        
+    <div>  
 
+    <article aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
         <label className="py-2 text-">Featured Image</label>
         <section className="h-full overflow-auto p-8 w-full  flex flex-col">
           <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-          
-            <input id="hidden-input" type="file" multiple className="" />
+            <input id="hidden-input"  type="file"
+          onChange={(e) => setImage(e.target.files[0])} multiple className="" />
            
           </header>
-       
+          
         </section>
-
       </article>
   <template id="file-template">
     <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
@@ -85,74 +123,80 @@ const NewPost =()=>{
         </section>
       </article>
     </li>
-  </template>
+  </template>    
 
 
-
-    </div>
-
-
-      <div className="-mx-3 flex flex-wrap">
-        <div className="w-full px-3">
-          <div className="mb-5">
-            <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
-              Title
-            </label>
-            <input type="text" name="fName" id="fName" placeholder="What going on ..." className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-          </div>
-        </div>
-        <div className="w-full px-3">
-          
-           <TextEditor />
-          
+  
+  
+  <div className="-mx-3 flex flex-wrap">
+  <div className="w-full px-3">
+  <div className="mb-5">
+  <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
+  Title
+  </label>
+  <input type="text" name="fName" id="fName" placeholder="What going on ..."   value={title}
+  onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+  </div>
+  </div>
+  <div className="w-full px-3">
+  
+  <TextEditor />
+  
         </div>
         <div className="w-full px-3">
           <div className="mb-5">
             <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
               Meta Title
-            </label>
-            <input type="text" name="lName" id="lName" placeholder="Last Name" className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+              </label>
+              <input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metatitle}
+              onChange={(e) => setMetatitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              </div>
+              <div className="mb-5">
+              <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
               Meta Description
-            </label>
-            <input type="text" name="lName" id="lName" placeholder="Last Name" className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-          </div>
-        </div>
-      </div>
-
-<div>
-  {/* component */}
-  <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
-  {/* This is an example component */}
-  {/* <div className=" mx-auto">
-    <label htmlFor="countries" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-400">Select Category</label>
-    <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <option selected>Choose a country</option>
-      <option value="US">United States</option>
-      <option value="CA">Canada</option>
-      <option value="FR">France</option>
+              </label>
+              <input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
+              onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              </div>
+              </div>
+              </div>
+              
+              <div>
+              {/* component */}
+              <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
+              {/* This is an example component */}
+              {/* <div className=" mx-auto">
+              <label htmlFor="countries" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-400">Select Category</label>
+              <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option selected>Choose a country</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
       <option value="DE">Germany</option>
     </select>
 
   </div> */}
-</div>
-
-
-      
-      <div>
-        <button className="hover:shadow-form rounded-md  bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
-          Submit
-        </button>
+  </div>
+  
+  
+  
+  <div>
+  <button className="hover:shadow-form rounded-md  bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+  Submit
+  </button>
+  
+  </div>
+  
       </div>
     </div>
+  </form>  
+
   </div>
 </div>
 
   </div>
     )
-}
 
+}
 
 export default NewPost
