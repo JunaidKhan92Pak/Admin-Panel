@@ -59,24 +59,22 @@ const Users =()=>{
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
-                <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-x-3">
-                    <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
-                    <span>File name</span>
-                  </div>
-                </th>
+              <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right  dark:text-gray-400">
+              <div className="flex items-center gap-x-3">
+                <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <span>User Image</span>
+              </div>
+            </th>
                 <th scope="col" className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  File size
+                  Name
                 </th>
                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Date uploaded
+                  Role
                 </th>
-                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Last updated
+                <th scope="col" className="px-4 font-bold py-3.5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  ...
                 </th>
-                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Uploaded by
-                </th>
+            
                 <th scope="col" className="relative py-3.5 px-4">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -111,8 +109,8 @@ const Users =()=>{
                       <td key={index} className="px-12 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
                      {index.title} </td>
                       <td key={index} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{index.category}</td>
-                      <td key={index} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"></td>
-                      <td key={index} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Lana Steiner</td>
+                      
+                      
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -166,6 +164,8 @@ const Users =()=>{
 </section>
 
   </div>
+
+  
     )
 }
 
