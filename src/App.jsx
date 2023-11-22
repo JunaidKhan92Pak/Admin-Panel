@@ -1,4 +1,4 @@
-// import React from 'react';
+import React, { useContext } from 'react';
 import { Routes,Route } from "react-router-dom";
 // import { AuthProvider } from "./Pages/AuthContext";
 // import PrivateRoute from './Pages/PrivateRoute';
@@ -12,7 +12,10 @@ import TextEditor from "./Component/TextEditor";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
+import AdminProtectedRoute from './Middleware/AdminProtectedRoute';
+import PreventAfterLogin from './Middleware/PreventAfterLogin';
 
+// const {isLogin} = useContext(ContextApi)
 
 const App = () => {
 
@@ -22,6 +25,7 @@ const App = () => {
     // </Switch>
     // </AuthProvider>
     <Routes>
+      <Route element={<AdminProtectedRoute/>}>
       <Route path="/" element={<Navbar/>} >
         <Route index element={<Home/>} />
         <Route path="newpost" element={<NewPost/>} />
@@ -29,9 +33,11 @@ const App = () => {
         <Route path="editor" element={<TextEditor/>} />
         <Route path="users" element={<Users />} />
        </Route>
-
+      </Route> 
+      <Route element={<PreventAfterLogin/>}>
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
+      </Route>
     </Routes>
 
     
