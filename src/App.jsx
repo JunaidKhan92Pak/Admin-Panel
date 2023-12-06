@@ -32,13 +32,15 @@ const App = () => {
         <Route path="allpost" element={<AllPost/>} />
         <Route path="editor" element={<TextEditor/>} />
         <Route path="users" element={<Users />} />
-       </Route>
 
+       </Route>
+      </Route> 
+      <Route element={<PreventAfterLogin/>}>
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
+      </Route>
     </Routes>
 
-    
   )
     
 }
