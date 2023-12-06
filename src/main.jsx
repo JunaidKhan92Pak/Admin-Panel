@@ -4,13 +4,15 @@ import App from './App.jsx'
 import './index.css'
 import {BrowserRouter} from 'react-router-dom'
 import { render } from "react-dom";
+import ContextApi from './ContextApi/index.jsx'
 
 render(
   <React.StrictMode>
-  <BrowserRouter>
-
-    <App />
-  </BrowserRouter>  
+      <ContextApi>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>  
+      </ContextApi>
 
   </React.StrictMode>,
   document.getElementById("root")
