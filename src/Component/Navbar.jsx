@@ -39,8 +39,12 @@ const Navbar = () =>{
     <div>
       <img src="{require(&quot;./devzox.png&quot;)}" alt="Devzox.com" />
     </div>
+    <Link to="register" className=" h-12 w-[130px] py-2.5 focus:outline-none">
     <button className="text-[#ff2c2c]"><i className="fa fa-sign-out " aria-hidden="true" />
-      Logout</button>
+      SignUp</button>
+      </Link>
+    <button className="text-[#ff2c2c]"><i className="fa fa-sign-out " aria-hidden="true" />
+      LogOut</button>
   </div>
         <Outlet />
 </div>

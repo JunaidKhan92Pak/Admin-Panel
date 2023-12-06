@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const Register = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
     const [formData, setFormData] = useState({
       name: '',
@@ -11,6 +12,14 @@ const Register = () => {
       confirmPassword: ''
     });
   
+
+
+    const togglePopup = () => {
+      setPopupVisible(!isPopupVisible);
+    };
+
+
+    
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({
@@ -53,6 +62,12 @@ const Register = () => {
 
   return (
 
+    <div>
+     {/* Button to trigger the popup */}
+     <button onClick={togglePopup}>Sign Up</button>
+
+     {/* Popup */}
+     {isPopupVisible && (
     
     <section className="bg-gray-50 dark:bg-gray-900">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -104,8 +119,13 @@ const Register = () => {
         </div>
     </div>
   </div>
+  
+          {/* Close button for the popup */}
+          <button onClick={togglePopup}>Close</button>
 </section>
 
+)}
+</div>
 
   )
 }

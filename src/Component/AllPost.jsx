@@ -23,8 +23,6 @@ const AllPost =()=>{
 
     
 
-
-
   return (
 
         <div className="flex justify-center items-center w-[85%]">

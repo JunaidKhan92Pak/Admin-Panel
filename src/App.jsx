@@ -28,15 +28,15 @@ const App = () => {
         <Route path="allpost" element={<AllPost/>} />
         <Route path="editor" element={<TextEditor/>} />
         <Route path="users" element={<Users />} />
-       </Route>
-
-        <Route path='/register' element={<Register/>} />
+        </Route>
+        
+        <Route path='register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
-    </Routes>
-
-    
+        
+        </Routes>
+  
   )
-
+    
 }
 
 export default App
