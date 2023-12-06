@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
-
-const Login = () => {
-
-
-  const { login } = useAuth();
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useAuth } from './AuthContext';
+import {useAuth} from '../Hooks/useAuth'
 
 
-
+const Login =()=>{
+  
+  const {LoginUser} = useAuth();
+  
+  const Navigate = useNavigate()
+  // const { login } = useAuth();
+  const HandleLogin = async(e)=>{
+    e.preventDefault()
+   await LoginUser()
+   Navigate("/")
+  }
 
     const [formData, setFormData] = useState({
       email: '',
@@ -22,39 +29,39 @@ const Login = () => {
       });
     };
   
-    const handleSubmit = (e) => {
-      e.preventDefault();
+    // const handleSubmit = (e) => {
+    //   e.preventDefault();
   
-      console.log( "Najaf Nazeer")
-      // Perform validation (you can add more validation logic)
-      if (!formData.email || !formData.password) {
-        alert('Please fill in all fields');
-        return;
-      }
+    //   console.log( "Najaf Nazeer")
+    //   // Perform validation (you can add more validation logic)
+    //   if (!formData.email || !formData.password) {
+    //     alert('Please fill in all fields');
+    //     return;
+    //   }
   
-      // Assuming you have an API endpoint for user registration
-      // Make an API call to register the user
-      fetch('https://de-backend-chi.vercel.app/admin/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle successful registration
+    //   // Assuming you have an API endpoint for user registration
+    //   // Make an API call to register the user
+    //   fetch('https://de-backend-chi.vercel.app/admin/login', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(formData),
+    //   })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     // Handle successful registration
         
-            login();
-          console.log('User Login successfully', data);
+    //         // login();
+    //       console.log('User Login successfully', data);
 
-        })
-        .catch((error) => {
-          // Handle registration failure
+    //     })
+    //     .catch((error) => {
+    //       // Handle registration failure
   
-          console.error('Error login user', error);
-        });
-    };
+    //       console.error('Error login user', error);
+    //     });
+    // };
 
 
 
@@ -74,7 +81,7 @@ const Login = () => {
           Create an account
         </h1>
 
-        <form onSubmit={handleSubmit}  className="space-y-4 md:space-y-6" action="#">
+        <form onSubmit={HandleLogin}  className="space-y-4 md:space-y-6" action="#">
       
         <div>
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
