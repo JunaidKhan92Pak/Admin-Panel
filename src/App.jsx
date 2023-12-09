@@ -35,6 +35,8 @@ const App = () => {
 
        </Route>
       </Route> 
+
+      
       <Route element={<PreventAfterLogin/>}>
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
