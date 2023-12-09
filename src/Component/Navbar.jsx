@@ -1,7 +1,65 @@
 import { Link, Outlet } from "react-router-dom"
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useAuth } from './AuthContext';
+import {useAuth} from '../Hooks/useAuth'
+
 
 const Navbar = () =>{
-    return (
+  
+  const {LogoutUser} = useAuth();
+  const Navigate = useNavigate()
+  
+  const Logout=()=>{
+    
+    
+    fetch('https://de-backend-chi.vercel.app/admin/logout', {
+      
+    method: 'POST',
+    
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then( async(response) =>{
+   
+      console.log( response.status )
+
+if(response.status==200){
+
+let Userdata= await response.json()
+console.log('User logout',Userdata);
+LogoutUser()
+Navigate("/login")
+
+}else{
+console.log('');
+Navigate("/")  
+
+}
+
+
+}).catch((error) => {
+      // Handle registration failure
+      console.error('Session not found,refresh the browser " error "', error);
+    });
+
+
+
+    console.log("logout goodby asdfghjklzxcvbnm,")
+    
+
+
+
+    // if(LogoutUser){
+      //   console.log("logout condition check")
+  
+    // };
+    
+  }
+  
+  
+  return (
         <div className="bg-[#f1f1f1] flex">
   <div className="h-screen  justify-between items-center flex flex-col bg-white min-h-screen p-4 w-[15%] sticky top-0">
     <div>
@@ -39,8 +97,9 @@ const Navbar = () =>{
     <div>
       <img src="{require(&quot;./devzox.png&quot;)}" alt="Devzox.com" />
     </div>
-    <button className="text-[#ff2c2c]"><i className="fa fa-sign-out " aria-hidden="true" />
-      Logout</button>
+ 
+    <button onClick={Logout} className="text-[#ff2c2c]"><i className="fa fa-sign-out " aria-hidden="true" />
+      LogOut</button>
   </div>
         <Outlet />
 </div>
