@@ -1,23 +1,18 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from './AuthContext';
 import {useAuth} from '../Hooks/useAuth'
 
 
 const Login =()=>{
-  
   const {LoginUser} = useAuth();
-  
   const Navigate = useNavigate()
-
-
-
-    const [formData, setFormData] = useState({
-      email: '',
-      password: '',
-     });
   
-     
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  
+  
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({
@@ -26,26 +21,20 @@ const Login =()=>{
       });
     };
 
-
-
-  const HandleLogin = async(e)=>{
+    const HandleLogin = async(e)=>{
 
     e.preventDefault()
       console.log( "123 check")
 
-      console.log('User Login successfully', formData);
 
-      fetch('https://de-backend-chi.vercel.app/admin/login', {
-      
-      method: 'POST',
-      
-      headers: {
-        "Content-Type":"application/json",
-        "Accept":"application/json",
-        
-      },
-      body: JSON.stringify(formData),
-      credentials: 'include',
+   await fetch("/api/admin/login",{
+        method:"POST",  
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json",
+        },
+        credentials:'include',
+        body:JSON.stringify(formData)
       })
       .then( async(response) =>{
      
@@ -73,25 +62,17 @@ let Userdata= await response.json()
         console.error('Error login user', error);
       });
       
-      
-      
-
-      // Perform validation (you can add more validation logic)
+       // Perform validation (you can add more validation logic)
      
-
-
       if (!formData.email || !formData.password) {
         alert('Please fill in all fields');
         return ;
       }
   
-      // Assuming you have an API endpoint for user registration
-      // Make an API call to register the user
-   
-  
+    
   }
 
-  
+ 
     // const handleSubmit = (e) => {
     //   e.preventDefault();
     // };
