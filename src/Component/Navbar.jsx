@@ -10,10 +10,13 @@ const Navbar = () =>{
   const {LogoutUser} = useAuth();
   const Navigate = useNavigate()
   
+  
+  
+  
   const Logout=()=>{
     
     
-    fetch('https://de-backend-chi.vercel.app/admin/logout', {
+    fetch('/api/admin/logout', {
       
     method: 'POST',
     

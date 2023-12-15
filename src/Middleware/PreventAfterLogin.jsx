@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../Hooks/useAuth'
-// import Login from '../Pages/Login'
 
 
 const PreventAfterLogin = () => {
   const Navigate = useNavigate()
   const {CheckUser} = useAuth();
-
+  const {userAuth} = useAuth();
+  
   
   const HandleCheck = ()=>{
-    // LoginUser()
+    userAuth()
     console.log("hello dksadjs dsa",CheckUser())
     let res = CheckUser()
     if(res){

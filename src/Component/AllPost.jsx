@@ -7,7 +7,7 @@ const AllPost =()=>{
     // Function to fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('https://de-backend-chi.vercel.app/blog/');
+        const response = await fetch('/api/blog/');
         const result = await response.json();
         setData(result.data);
       } catch (error) {

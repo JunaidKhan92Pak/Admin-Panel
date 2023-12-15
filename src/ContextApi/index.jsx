@@ -1,12 +1,16 @@
 import React,{createContext, useState} from 'react'
 
 const Context = createContext()
-const index = ({children}) => {
+
+const index = ({children}) =>{
+  
     const [isLogin,setIsLogin] = useState(false);
-    const HandleLoginState = ()=>{
-      console.log("index login")
+
     
+    const HandleLoginState = ()=>{
       setIsLogin(true)
+      console.log("index login",isLogin)
+
     }
 
     const HandleLogoutState = ()=>{

@@ -40,7 +40,7 @@ const Register = () => {
      
       // Assuming you have an API endpoint for user registration
       // Make an API call to register the user
-      fetch('https://de-backend-chi.vercel.app/admin/register', {
+      fetch('/app/admin/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
