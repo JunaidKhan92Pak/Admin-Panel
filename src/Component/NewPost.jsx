@@ -1,5 +1,5 @@
 import TextEditor from "./TextEditor"
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const NewPost =()=>{
       
@@ -22,25 +22,23 @@ const NewPost =()=>{
     formData.append('description', description);
 
      
-  //   try {
-  //     const response = await fetch('https://de-backend-chi.vercel.app//blog/', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
+    try {
+      const response = await fetch('/api/blog/', {
+        method: 'POST',
+        body: formData,
+      });
 
-  //     if (response.ok) {
-  //       // Handle success
-  //       console.log('Data submitted successfully');
-  //     } else {
-  //       // Handle error
-  //       console.error('Failed to submit data');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error submitting data:', error);
-  //   }
+      if (response.ok) {  
+        // Handle success
+        console.log('Data submitted successfully');
+      } else {
+        // Handle error
+        console.error('Failed to submit data');
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error);
+    }
   };
-
-
   
   return (
 
@@ -50,6 +48,7 @@ const NewPost =()=>{
   {/* Author: FormBold Team */}
   {/* Learn More: https://formbold.com */}
   <div className="mx-auto w-full max-w-auto">
+  
   <form onSubmit={handleSubmit}>
   <div>
     <div className="">
@@ -72,7 +71,7 @@ const NewPost =()=>{
       </article>
   <template id="file-template">
     <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
-      <article tabindex="0" className="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative bg-gray-100 cursor-pointer relative shadow-sm">
+      <article className="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative bg-gray-100 cursor-pointer relative shadow-sm">
         <img alt="upload preview" className="img-preview hidden w-full h-full sticky object-cover rounded-md bg-fixed" />
 
         <section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
@@ -99,7 +98,7 @@ const NewPost =()=>{
 
   <template id="image-template">
     <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
-      <article tabindex="0" className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
+      <article className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
         <img alt="upload preview" className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
 
         <section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">

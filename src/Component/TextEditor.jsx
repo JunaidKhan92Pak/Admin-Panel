@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { convertToRaw, EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -18,15 +18,7 @@ const MyEditor = () => {
         toolbarClassName="toolbar-class"
        
       />
-      {/* <div className="code-view">
-        <p>HTML View </p>
-        <textarea
-          className="text-area"
-          disabled
-        
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        />
-      </div> */}
+      
     </div>
   );
 };

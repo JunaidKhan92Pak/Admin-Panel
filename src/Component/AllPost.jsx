@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { Fragment,useState, useEffect } from 'react';
+import { Menu,Transition } from '@headlessui/react'
+
 
 const AllPost =()=>{
   
@@ -18,10 +20,25 @@ const AllPost =()=>{
     // Call the fetch data function
     fetchData();
     console.log(data)
-}, []); 
+}, [data]); 
 // Empty dependency array ensures the effect runs only once after initial render
 
     
+//delete operation
+
+  const handleDelete = async (itemId) => {
+    console.log(itemId,'hello check it')
+    // Send a DELETE request to the server
+    try {
+      await fetch(`/api/blog/${itemId}`, {
+        method: 'DELETE',
+      });
+
+      // Check if the deletion was successful (status code 204)
+         } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
 
   return (
 
@@ -74,70 +91,103 @@ const AllPost =()=>{
                       <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right  dark:text-gray-400">
                         Status
                       </th>
-                      <th scope="col" className="px-4 py-3.5 font-bold text-left rtl:text-right  dark:text-gray-400">
-                       ...Drop Down
-                      </th>
-                      <th scope="col" className="relative py-3.5 px-4">
+                     
+                      <th scope="col" className="relative py-3.5 px-4 dark:text-gray-400">
                         <span className="sr-only">Edit</span>
                       </th>
                     </tr>
                   </thead>
-
-                  
                   
                   {data.length > 0 ? (
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                     
             {data.map((index) => (
               // <img src={item.meta} alt={imageData.title} />
-              
-              <tr>
-                  <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                    <div className="inline-flex items-center gap-x-3">
-                      <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
-                      <div className="flex items-center gap-x-2">
-                        <div className="flex items-center justify-center w-8 h-8 text-blue-500 bg-blue-100 rounded-full dark:bg-gray-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                          </svg>
-                        </div>
-                        <div>
-        
-                        <h2 className="font-normal dark:text-white ">Tech requirements.pdf</h2>
-                          <p className="text-xs font-normal  dark:text-gray-400"></p>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td key={index} className="px-12 py-4 text-sm font-normal dark:text-gray-300 whitespace-nowrap">
-                 {index.title}</td>
-                  <td key={index} className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.category}</td>
-                  <td key={index} className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.__v}</td>
+              <>
+              <tr key={index._id}>
+                 
+                  <td className="px-12 py-4 text-sm font-normal dark:text-gray-300 whitespace-nowrap">
+                 <img src={index.fImage} className='w-20 h-20' /> </td>
+                  <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.title}</td>
+                  <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.category}</td>
+                  <td  className="px-4 py-4 text-sm whitespace-nowrap">12</td>
+                  
                   <td className="px-4 py-4 text-sm whitespace-nowrap">
-                 
-                  <div className=" mx-auto">
-                 
-                  <select id="" className=" text-sm rounded-lg block dark:placeholder-gray-400 w-4">
-                  <option value="L">Live</option>
-                  <option value="E">Edit</option>
-                 <option value="D">Delete</option>
-                            </select> 
-    
-                   </div>
 
-
-                  </td>
+                <Menu as="div" className="relative inline-block text-left">
+        <div>
+          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+          <button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                    </svg>
+                  </button>
+          </Menu.Button>
+        </div>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="absolute z-40 right-0 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <div className="px-1 py-1 ">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  >
+                   
+                    Edit
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  >
+                    
+                    Duplicate
+                  </button>
+                )}
+              </Menu.Item>
+            </div>
+           <div className="px-1 py-1">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                     onClick={ ()=> handleDelete(index._id)}
+                  >
+                    
+                    Delete
+                  </button>
+                )}
+              </Menu.Item>
+            </div>
+          </Menu.Items>
+        </Transition>
+      </Menu>
+                 
+                </td>
                 </tr>
-          
+                </>
       
             ))}
             </tbody>
             ) : (
           <p>Loading...</p>
         )}
-    
-
-
                    
                 
                   </table>
