@@ -32,7 +32,6 @@ const App = () => {
         <Route path="allpost" element={<AllPost/>} />
         <Route path="editor" element={<TextEditor/>} />
         <Route path="users" element={<Users />} />
-
        </Route>
       </Route> 
 
