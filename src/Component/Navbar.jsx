@@ -8,6 +8,7 @@ import {useAuth} from '../Hooks/useAuth'
 const Navbar = () =>{
   
   const {LogoutUser} = useAuth();
+  const [paths,setPaths] = useState()
   const Navigate = useNavigate()
   
   
@@ -63,49 +64,92 @@ Navigate("/")
   
   
   return (
-        <div className="bg-[#f1f1f1] flex">
-  <div className="h-screen  justify-between items-center flex flex-col bg-white min-h-screen p-4 w-[15%] sticky top-0">
-    <div>
-      <h1 className="font-bold text-blue-800 text-xl">Hamdan</h1>
-    </div>
-    <div>
-      <ul className="flex flex-col text-black">
-        <li className=" gap-2 p-1 mt-4 flex hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg">
-          <svg className="w-6 h-12" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={100} height={100} viewBox="0 0 24 24">
-            <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z" />
-          </svg> <Link to="/" className=" h-12 w-[130px] py-2 focus:outline-none">Dashboard</Link>
-        </li>
-        <li className=" gap-2 p-1 mt-4 flex hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg">
-          <svg className="w-6 h-12" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={100} height={100} viewBox="0 0 48 48">
-            <path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} strokeWidth={3} d="M35.4,38.8c-3.2,2.4-7.1,3.9-11.4,3.9C13.7,42.7,5.3,34.3,5.3,24c0-2.6,0.6-5.2,1.5-7.4" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} strokeWidth={3} d="M12.1,9.6C15.3,7,19.5,5.3,24,5.3c10.3,0,18.7,8.4,18.7,18.7c0,2.3-0.4,4.5-1.2,6.6" /><line x1={24} x2={24} y1={14} y2={34} fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} strokeWidth={3} /><line x1={34} x2={14} y1={24} y2={24} fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} strokeWidth={3} />
-          </svg>  <Link to="newpost"  className=" h-12 w-[130px] py-2.5 focus:outline-none">New post</Link>
-        </li>
-        <li className=" gap-2 p-1 mt-4 flex hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg">
-          <svg className="w-6 h-12" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={100} height={100} viewBox="0 0 100 100">
-            <path d="M 50 14 C 30.149 14 14 30.149 14 50 C 14 69.851 30.149 86 50 86 C 69.851 86 86 69.851 86 50 C 86 30.149 69.851 14 50 14 z M 50 16 C 68.748 16 84 31.252 84 50 C 84 68.748 68.748 84 50 84 C 31.252 84 16 68.748 16 50 C 16 31.252 31.252 16 50 16 z M 50 19 C 32.907 19 19 32.907 19 50 C 19 67.093 32.907 81 50 81 C 67.093 81 81 67.093 81 50 C 81 41.279 77.294938 32.912875 70.835938 27.046875 C 70.632937 26.861875 70.315859 26.876078 70.130859 27.080078 C 69.944859 27.284078 69.960062 27.602109 70.164062 27.787109 C 76.415063 33.464109 80 41.561 80 50 C 80 66.542 66.542 80 50 80 C 33.458 80 20 66.542 20 50 C 20 33.458 33.458 20 50 20 C 53.549 20 57.024125 20.613219 60.328125 21.824219 C 60.587125 21.922219 60.87475 21.786344 60.96875 21.527344 C 61.06375 21.268344 60.930875 20.981719 60.671875 20.886719 C 57.256875 19.634719 53.667 19 50 19 z M 63.529297 22.142578 C 63.334813 22.131141 63.143031 22.233922 63.050781 22.419922 C 62.928781 22.668922 63.030344 22.969797 63.277344 23.091797 C 63.941344 23.419797 64.603141 23.77725 65.244141 24.15625 C 65.324141 24.20325 65.411047 24.226563 65.498047 24.226562 C 65.669047 24.226562 65.835687 24.138469 65.929688 23.980469 C 66.069688 23.742469 65.991906 23.435922 65.753906 23.294922 C 65.090906 22.902922 64.406703 22.533359 63.720703 22.193359 C 63.658703 22.162859 63.594125 22.146391 63.529297 22.142578 z M 67.412109 24.523438 C 67.285984 24.545812 67.169344 24.617469 67.089844 24.730469 C 66.931844 24.956469 66.985891 25.268734 67.212891 25.427734 C 67.545891 25.659734 67.873313 25.899484 68.195312 26.146484 C 68.286312 26.215484 68.392047 26.248047 68.498047 26.248047 C 68.648047 26.248047 68.798484 26.181734 68.896484 26.052734 C 69.064484 25.833734 69.021734 25.519562 68.802734 25.351562 C 68.469734 25.096563 68.129156 24.849422 67.785156 24.607422 C 67.672156 24.527922 67.538234 24.501063 67.412109 24.523438 z M 50 32 C 48.346 32 47 33.346 47 35 L 47 47 L 36 47 C 34.346 47 33 48.346 33 50 C 33 51.654 34.346 53 36 53 L 47 53 L 47 65 C 47 66.654 48.346 68 50 68 C 51.654 68 53 66.654 53 65 L 53 53 L 64 53 C 65.654 53 67 51.654 67 50 C 67 48.346 65.654 47 64 47 L 53 47 L 53 35 C 53 33.346 51.654 32 50 32 z M 50 33 C 51.103 33 52 33.897 52 35 L 52 47.5 C 52 47.776 52.224 48 52.5 48 L 64 48 C 65.103 48 66 48.897 66 50 C 66 51.103 65.103 52 64 52 L 52.5 52 C 52.224 52 52 52.224 52 52.5 L 52 65 C 52 66.103 51.103 67 50 67 C 48.897 67 48 66.103 48 65 L 48 52.5 C 48 52.224 47.776 52 47.5 52 L 36 52 C 34.897 52 34 51.103 34 50 C 34 48.897 34.897 48 36 48 L 47.5 48 C 47.776 48 48 47.776 48 47.5 L 48 35 C 48 33.897 48.897 33 50 33 z" />
-          </svg> <Link to="allpost" className=" h-12 w-[130px] py-2.5 focus:outline-none">All Post</Link>
-        </li>
-        <li className=" gap-2 p-1 mt-4 flex hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg">
-          <svg className="w-6 h-12 hover:" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={100} height={100} viewBox="0 0 24 24">
-            <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z" />
-          </svg>   <Link to="#" className=" h-12 w-[130px] py-2.5 focus:outline-none">Category</Link>
-        </li> 
-        <li className=" gap-2 p-1 mt-4 flex hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg">
-          <svg className="w-6 h-12 hover:" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={100} height={100} viewBox="0 0 24 24">
-            <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z" />
-          </svg>   <Link to="users" className=" h-12 w-[130px] py-2.5 focus:outline-none">Users</Link>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <img src="{require(&quot;./devzox.png&quot;)}" alt="Devzox.com" />
-    </div>
- 
-    <button onClick={Logout} className="text-[#ff2c2c]"><i className="fa fa-sign-out " aria-hidden="true" />
-      LogOut</button>
+    <>
+    <section className='flex'>
+
+   <aside className="flex flex-col w-[20%] h-screen sticky top-0 px-4 py-8 overflow-y-auto border-r rtl:border-r-0 rtl:border-l bg-gray-900 border-gray-700">
+  <Link to="#" className='text-center flex justify-center'>
+    <img className="w-auto h-6 sm:h-7 text-center" src="https://dummyimage.com/400x200" alt />
+  </Link>
+  <div className="relative mt-6">
+    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+    <input type="text" className="w-full py-2 pl-10 pr-4 border rounded-md bg-gray-900 text-gray-300 border-gray-600 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Search" />
   </div>
-        <Outlet />
-</div>
+  <div className="flex flex-col justify-between flex-1 mt-6">
+    <nav>
+      <Link to="/" className={`flex items-center px-4 py-2 rounded-md transition-colors duration-300 transform ${paths=="/admin/"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Dashboard</span>
+      </Link>
+      <Link to="allpost" className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/allpost"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `} >
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">All Post</span>
+      </Link>
+      <Link to="newpost" className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/newpost"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Add New Post</span>
+      </Link>
+      <Link to="#category" className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/category"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Users</span>
+      </Link>
+      <Link to="users" className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/category"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Categories</span>
+      </Link>
+     
+      <Link to="#messages" className={`flex items-center px-4 py-1 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/setting"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Messages </span>
+      </Link>
+      <hr className="my-6 border-gray-600" />
+      
+      <Link to="setting" className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/setting"?'bg-gray-800 text-gray-200':'text-gray-400 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Settings</span>
+      </Link>
+      <button onClick={Logout} className={`flex items-center px-4 py-2 mt-5 rounded-md transition-colors duration-300 transform ${paths=="/admin/setting"?'bg-gray-800 text-gray-200':'text-red-600 hover:bg-gray-800 hover:text-gray-200'} `}>
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="mx-4 font-medium">Logout</span>
+      </button>
+    </nav>
+    <Link to="#" className="flex items-center px-4 -mx-2">
+      <img className="object-cover mx-2 rounded-full h-9 w-9" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar" />
+      <span className="mx-2 font-medium text-gray-200">Administer</span>
+    </Link>
+  </div>
+</aside>
+
+    <main className='w-[80%] px-2'>
+    <Outlet/>
+    </main>
+    </section>
+       
+</>
     )
 }
 

@@ -5,9 +5,13 @@ const NewPost =()=>{
       
    const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
-  const [metatitle, setMetatitle] = useState('');
-
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+  const [featured, setFeatured] = useState(false);
+  const [status, setStatus] = useState(true);
+  const [metaTitle, setMetaTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,12 +20,16 @@ const NewPost =()=>{
     
     // Create FormData object to send files and other data
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('fImage', image);
     formData.append('title', title);
-    formData.append('Metatitle', metatitle);
-    formData.append('description', description);
+    formData.append('content', content);
+    formData.append('category', category);
+    formData.append('isFeatured', featured);
+    formData.append('status', status);
+    formData.append('metaTitle', metaTitle);
+    formData.append('metaDescription', description);
+    formData.append('metaAuthor', author);
 
-     
     try {
       const response = await fetch('/api/blog/', {
         method: 'POST',
@@ -42,34 +50,26 @@ const NewPost =()=>{
   
   return (
 
-        <div className="flex justify-center items-center w-[85%]">
-{/* component */}
-<div className="flex items-center justify-center px-12 py-3 w-full ">
-  {/* Author: FormBold Team */}
-  {/* Learn More: https://formbold.com */}
-  <div className="mx-auto w-full max-w-auto">
+    <div className="flex justify-center items-center">
+    <section className="container px-4 py-4 mx-auto">
+     
+  <div className="mx-auto w-full">
   
   <form onSubmit={handleSubmit}>
   <div>
     <div className="">
-
-    <h1 className="text-2xl">Add New Post</h1>
+      <h1 className="text-2xl font-extrabold">Add New Post</h1>
     </div>
-    
     <div>  
-
-    <article aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
+    <section aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
         <label className="py-2 text-">Featured Image</label>
         <section className="h-full overflow-auto p-8 w-full  flex flex-col">
           <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-            <input id="hidden-input"  type="file"
-          onChange={(e) => setImage(e.target.files[0])} multiple className="" />
-           
+            <input id="hidden-input" type="file" onChange={(e) => setImage(e.target.files[0])} multiple className="" />
           </header>
-          
         </section>
-      </article>
-  <template id="file-template">
+      </section>
+  {/* <template id="file-template">
     <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
       <article className="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative bg-gray-100 cursor-pointer relative shadow-sm">
         <img alt="upload preview" className="img-preview hidden w-full h-full sticky object-cover rounded-md bg-fixed" />
@@ -94,9 +94,9 @@ const NewPost =()=>{
         </section>
       </article>
     </li>
-  </template>
+  </template> */}
 
-  <template id="image-template">
+  {/* <template id="image-template">
     <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
       <article className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
         <img alt="upload preview" className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
@@ -122,43 +122,90 @@ const NewPost =()=>{
         </section>
       </article>
     </li>
-  </template>    
+  </template>     */}
 
+  <div className="-mx-3 flex gap-2 flex-wrap">
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
+      Title
+      </label>
+      <input type="text" name="fName" id="fName" placeholder="What going on ..." value={title}
+      onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+      </div>
+      </div>
+      <div className="w-full px-3">
 
-  
-  
-  <div className="-mx-3 flex flex-wrap">
-  <div className="w-full px-3">
-  <div className="mb-5">
-  <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
-  Title
-  </label>
-  <input type="text" name="fName" id="fName" placeholder="What going on ..."   value={title}
-  onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-  </div>
-  </div>
-  <div className="w-full px-3">
-  
-  <TextEditor />
-  
+      <TextEditor handleContent={setContent} />
+
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+       Choose Category
+        </label>
+        <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
+        onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+          <option value="Programming">Programming</option>
+          <option value="Artificial-inteligence">Artificial-inteligence</option>
+          <option value="Cryptography">Cryptography</option>
+        </select>
         </div>
-        <div className="w-full px-3">
-          <div className="mb-5">
-            <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-              Meta Title
-              </label>
-              <input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metatitle}
-              onChange={(e) => setMetatitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-              </div>
-              <div className="mb-5">
-              <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-              Meta Description
-              </label>
-              <input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
-              onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-              </div>
-              </div>
-              </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+       isFeatured
+        </label>
+        <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={featured}
+        onChange={(e) => setFeatured(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+         <option value={true}>Yes</option>
+          <option value={false}>No</option>
+        </select>
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+      Status
+        </label>
+        <select type="text" name="lName" id="lName" defaultValue={status}
+        onChange={(e) => setStatus(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+          <option value={true}>Active</option>
+          <option value={false}>In-Active</option>
+        </select>
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Title
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metaTitle}
+        onChange={(e) => setMetaTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Description
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
+        onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+        
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Author (default:devzox)
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="devzox"  value={author}
+        onChange={(e) => setAuthor(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+        
+      </div>
+          </div>
               
               <div>
               {/* component */}
@@ -180,7 +227,7 @@ const NewPost =()=>{
   
   
   <div>
-  <button className="hover:shadow-form rounded-md  bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+  <button className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
   Submit
   </button>
   
@@ -191,8 +238,7 @@ const NewPost =()=>{
   </form>  
 
   </div>
-</div>
-
+</section>
   </div>
     )
 
