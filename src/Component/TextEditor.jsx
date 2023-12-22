@@ -7,7 +7,7 @@ import draftToHtml from "draftjs-to-html";
 
 
 
-const MyEditor = () => {
+const MyEditor = ({handleContent}) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   function uploadCallback(file) {
@@ -28,21 +28,11 @@ const MyEditor = () => {
           }
       }
   );
-  //   return new Promise((resolve, reject) => {
-  //     const data = new formdata();
-  //     data.append("storyimage", file)
-  //     axios.post(upload file api call, data).then(responseimage => {
-  //          resolve({ data: { link: path to image on server } });
-  //     })
-  //  });
-    // return new Promise(
-    //   (resolve, reject) => {
-    //     resolve({ data: { link: "http://dummy_image_src.com" } });
-    //   }
-    // );
+ 
   }
  useEffect(()=>{
-    document.querySelector("#text_there").innerHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    handleContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+    // document.querySelector("#text_there").innerHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()))
  },[editorState])
   return (
     <div className="App">
@@ -58,7 +48,7 @@ const MyEditor = () => {
         placeholder="Type here...."
       />
       </div>
-      <div className="code-view">
+      {/* <div className="code-view">
         <p>HTML View </p>
         <textarea
           className="text-area"
@@ -66,10 +56,10 @@ const MyEditor = () => {
         
           value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         />
-      </div>
-      <div id="text_there" className="w-full">
+      </div> */}
+      {/* <div id="text_there" className="w-full">
         
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -19,15 +19,15 @@ const AllPost =()=>{
     
     // Call the fetch data function
     fetchData();
-    console.log(data)
-}, [data]); 
+    // console.log(data)
+}, []); 
 // Empty dependency array ensures the effect runs only once after initial render
 
     
 //delete operation
 
   const handleDelete = async (itemId) => {
-    console.log(itemId,'hello check it')
+    // console.log(itemId,'hello check it')
     // Send a DELETE request to the server
     try {
       await fetch(`/api/blog/${itemId}`, {
@@ -42,11 +42,10 @@ const AllPost =()=>{
 
   return (
 
-        <div className="flex justify-center items-center w-[85%]">
-        <section className="container px-4 mx-auto">
-        <div className="sm:flex sm:items-center sm:justify-between">
-        <div className="">
-
+  <div className="flex justify-center items-center">
+    <section className="container px-4 mx-auto">
+     <div className="sm:flex sm:items-center sm:justify-between">
+     <div className="">
     <h1 className="text-xl">All Post</h1>
     </div>
           {/* <h2 className="text-lg font-medium">Files uploaded</h2> */}
@@ -103,7 +102,7 @@ const AllPost =()=>{
                     
             {data.map((index) => (
               // <img src={item.meta} alt={imageData.title} />
-              <>
+            
               <tr key={index._id}>
                  
                   <td className="px-12 py-4 text-sm font-normal dark:text-gray-300 whitespace-nowrap">
@@ -114,7 +113,7 @@ const AllPost =()=>{
                   
                   <td className="px-4 py-4 text-sm whitespace-nowrap">
 
-                <Menu as="div" className="relative inline-block text-left">
+                <Menu as="div" className="overflow-hidden text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
           <button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
@@ -133,7 +132,7 @@ const AllPost =()=>{
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute z-40 right-0 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <Menu.Items className="absolute z-50 right-20 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
@@ -155,7 +154,7 @@ const AllPost =()=>{
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     
-                    Duplicate
+                   View Blog
                   </button>
                 )}
               </Menu.Item>
@@ -181,7 +180,7 @@ const AllPost =()=>{
                  
                 </td>
                 </tr>
-                </>
+                
       
             ))}
             </tbody>
