@@ -1,16 +1,20 @@
 import { Fragment,useState, useEffect } from 'react';
 import { Menu,Transition } from '@headlessui/react'
-
+import TextEditor from "./TextEditor"
 
 const AllPost =()=>{
   
   const [data, setData] = useState([]);
+const [showPopupEdit, setShowPopupEdit] = useState(true);
+
+
   useEffect(() => {
     // Function to fetch data from the API
     const fetchData = async () => {
       try {
         const response = await fetch('/api/blog/');
         const result = await response.json();
+        console.log("data from api to show all post", result.data)
         setData(result.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -40,14 +44,249 @@ const AllPost =()=>{
     }
   };
 
+
+
+
+
+
+  //Edit form Pages nefor and after submit or update blog page
+   
+
+
+
+
+
+
+const [image, setImage] = useState('');
+const [title, setTitle] = useState('');
+const [content, setContent] = useState('');
+const [category, setCategory] = useState('');
+const [featured, setFeatured] = useState(false);
+const [status, setStatus] = useState(true);
+const [metaTitle, setMetaTitle] = useState('');
+const [description, setDescription] = useState('');
+const [author, setAuthor] = useState('');
+const [MyId, setMyId] = useState('');
+
+
+//Edit button effect
+
+const handleEdit=(index)=>{
+
+  setImage(index.fImage)
+  setTitle(index.title)
+  setContent(index.content)
+  setCategory(index.category)
+  setFeatured(index.isFeatured)
+  setStatus(index.status)
+  setMetaTitle(index.meta.title)
+  setDescription(index.meta.description)
+  setAuthor(index.meta.author)
+
+setMyId(index._id)
+console.log(index)
+}
+
+
+
+useEffect(() => {
+  // This effect will run when the component mounts
+    // You can use it to show the popup after a delay, for example
+    const timeoutId = setTimeout(() => {
+      setShowPopupEdit(false);
+    }, 2000); // Show popup after 2000 milliseconds (2 seconds)
+    
+    // Clean up the timeout to avoid memory leaks
+    return () => clearTimeout(timeoutId);
+  }, []); // Empty dependency array means the effect runs only once when the component mounts
+
+  const closePopup = () => {
+    setShowPopupEdit(true);
+  };
+  
+
+  // LAst Submitted
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("handleSubmit")
+    
+    // Create FormData object to send files and other data
+    const formData = new FormData();
+  formData.append('fImage', image);
+  formData.append('title', title);
+  formData.append('content', content);
+  formData.append('category', category);
+  formData.append('isFeatured', featured);
+  formData.append('status', status);
+  formData.append('metaTitle', metaTitle);
+  formData.append('metaDescription', description);
+  formData.append('metaAuthor', author);
+  console.log(formData)
+  console.log(MyId)
+  
+  try {
+    const response = await fetch(`/api/blog/${MyId}`, {
+      method: 'PATCH',
+      body:formData
+    });
+
+    if (response.ok) {  
+      // Handle success
+      console.log('Data submitted successfully');
+      setShowPopupEdit(false)
+    } else {
+      // Handle error
+      console.error('Failed to submit data');
+    }
+  } catch (error) {
+    console.error('Error submitting data:', error);
+  }
+};
+
   return (
 
-  <div className="flex justify-center items-center">
+
+<div>
+
+      {showPopupEdit && (
+        <div className="popup absolute bg-white flex justify-center items-center">
+
+          
+           <form onSubmit={handleSubmit}>
+  <div>
+    <div className="">
+      <h1 className="text-2xl font-extrabold">Add New Post</h1>
+    </div>
+    <div>  
+    <section aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
+        <label className="py-2 text-">Featured Image</label>
+        <section className="h-full overflow-auto p-8 w-full  flex flex-col">
+          <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+            <input id="hidden-input" type="file" onChange={(e) => setImage(e.target.files[0])} multiple className="" />
+          </header>
+        </section>
+      </section>
+  
+  <div className="-mx-3 flex gap-2 flex-wrap">
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
+      Title
+      </label>
+      <input type="text" name="fName" id="fName" placeholder="What going on ..." value={title}
+      onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+      </div>
+      </div>
+      <div className="w-full px-3">
+
+      <TextEditor handleContent={setContent} />
+
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+       Choose Category
+        </label>
+        <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
+        onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+          <option value="Programming">Programming</option>
+          <option value="Artificial-inteligence">Artificial-inteligence</option>
+          <option value="Cryptography">Cryptography</option>
+        </select>
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+       isFeatured
+        </label>
+        <select type="text" name="lName" id="lName" placeholder="My First Blog"  defaultValue={featured}
+        onChange={(e) => setFeatured(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+         <option value={true}>Yes</option>
+          <option value={false}>No</option>
+        </select>
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+      Status
+        </label>
+        <select type="text" name="lName" id="lName" defaultValue={status}
+        onChange={(e) => setStatus(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+          <option value={true}>Active</option>
+          <option value={false}>In-Active</option>
+        </select>
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Title
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metaTitle}
+        onChange={(e) => setMetaTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Description
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
+        onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+        
+      </div>
+      <div className="w-full px-3">
+      <div className="mb-5">
+        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
+        Meta Author (default:devzox)
+        </label>
+        <input type="text" name="lName" id="lName" placeholder="devzox"  value={author}
+        onChange={(e) => setAuthor(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+        
+      </div>
+          </div>
+              
+              <div>
+              {/* component */}
+              <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
+          
+  </div>
+  
+  
+  <div>
+      <button onClick={()=>setShowPopupEdit(false)}  className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+  cancle
+  </button>
+  <button className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
+  Submit
+  </button>
+  
+  </div>
+  
+      </div>
+    </div>
+              </form> 
+
+
+        </div>
+      )}
+    
+    
+
+
+
+
     <section className="container px-4 mx-auto">
      <div className="sm:flex sm:items-center sm:justify-between">
      <div className="">
     <h1 className="text-xl">All Post</h1>
     </div>
+
           {/* <h2 className="text-lg font-medium">Files uploaded</h2> */}
           <div className="flex items-center mt-4 gap-x-3">
             {/* <button className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white border rounded-lg sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-white dark:border-gray-700">
@@ -90,7 +329,10 @@ const AllPost =()=>{
                       <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right  dark:text-gray-400">
                         Status
                       </th>
-                     
+                      <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right  dark:text-gray-400">
+                        IsFeatured
+                      </th>
+            
                       <th scope="col" className="relative py-3.5 px-4 dark:text-gray-400">
                         <span className="sr-only">Edit</span>
                       </th>
@@ -106,10 +348,12 @@ const AllPost =()=>{
               <tr key={index._id}>
                  
                   <td className="px-12 py-4 text-sm font-normal dark:text-gray-300 whitespace-nowrap">
-                 <img src={index.fImage} className='w-20 h-20' /> </td>
+                  <img src={index.fImage} className='w-20 h-20' /> </td>
                   <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.title}</td>
                   <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.category}</td>
-                  <td  className="px-4 py-4 text-sm whitespace-nowrap">12</td>
+                  <td  className="px-4 py-4 text-sm whitespace-nowrap">{index.status? "Active": "in-Active"}</td>
+                  <td  className="px-4 py-4 text-sm whitespace-nowrap">{index.isFeatured? "Yes" :"No" }</td>
+
                   
                   <td className="px-4 py-4 text-sm whitespace-nowrap">
 
@@ -134,14 +378,15 @@ const AllPost =()=>{
         >
           <Menu.Items className="absolute z-50 right-20 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
             <div className="px-1 py-1 ">
+     
               <Menu.Item>
                 {({ active }) => (
-                  <button
+  
+  <button onClick={ ()=>{closePopup(); handleEdit(index);}}
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                   
+                    >
                     Edit
                   </button>
                 )}

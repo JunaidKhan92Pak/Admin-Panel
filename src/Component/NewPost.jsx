@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const NewPost =()=>{
       
-   const [image, setImage] = useState('');
+  const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
@@ -16,7 +16,6 @@ const NewPost =()=>{
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("handleSubmit")
-    console.log(image,title,description)
     
     // Create FormData object to send files and other data
     const formData = new FormData();
@@ -29,7 +28,8 @@ const NewPost =()=>{
     formData.append('metaTitle', metaTitle);
     formData.append('metaDescription', description);
     formData.append('metaAuthor', author);
-
+    
+    console.log("on new post ", formData);
     try {
       const response = await fetch('/api/blog/', {
         method: 'POST',
