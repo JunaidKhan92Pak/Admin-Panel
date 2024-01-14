@@ -1,3 +1,12 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.toast-message {
+    background: rgb(11, 11, 37);
+    color: #fff;
+    font-size: 18px;
+    width: 30vw;
+    padding: 16px 50px;
+  }

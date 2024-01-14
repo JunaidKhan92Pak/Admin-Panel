@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { Fragment,useState, useEffect } from 'react';
+import { Menu,Transition } from '@headlessui/react'
 
 
 const Users =()=>{
@@ -18,12 +19,28 @@ const Users =()=>{
     
     // Call the fetch data function
     fetchData();
-    console.log(data)
-}, []); 
-// Empty dependency array ensures the effect runs only once after initial render
+  }, []); 
+  // Empty dependency array ensures the effect runs only once after initial render
+  
+  
+      
+//delete operation
 
-    
+const handleDelete = async (itemId) => {
+  // console.log(itemId,'hello check it')
+  // Send a DELETE request to the server
+  try {
+    await fetch(`/api/blog/${itemId}`, {
+      method: 'DELETE',
+    });
 
+    // Check if the deletion was successful (status code 204)
+       } catch (error) {
+    console.error('Error deleting item:', error);
+  }
+};
+ 
+  console.log(data,"lets see well godd")
 
 
 
@@ -53,7 +70,7 @@ const Users =()=>{
     </div>
   </div>
   <div className="flex flex-col mt-6">
-    <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
         <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -75,9 +92,6 @@ const Users =()=>{
                   ...
                 </th>
             
-                <th scope="col" className="relative py-3.5 px-4">
-                  <span className="sr-only">Edit</span>
-                </th>
               </tr>
             </thead>
             
@@ -111,13 +125,63 @@ const Users =()=>{
                       <td key={index} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{index.category}</td>
                       
                       
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                          </svg>
-                        </button>
-                      </td>
+                  <td className="px-4 py-4 text-sm whitespace-nowrap">
+
+<Menu as="div" className="overflow-hidden text-left">
+<div>
+<Menu.Button className="inline-flex w-full justify-center rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+<button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+    </svg>
+  </button>
+</Menu.Button>
+</div>
+<Transition
+as={Fragment}
+enter="transition ease-out duration-100"
+enterFrom="transform opacity-0 scale-95"
+enterTo="transform opacity-100 scale-100"
+leave="transition ease-in duration-75"
+leaveFrom="transform opacity-100 scale-100"
+leaveTo="transform opacity-0 scale-95"
+>
+<Menu.Items className="absolute z-50 right-20 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+<div className="px-1 py-1 ">
+
+<Menu.Item>
+{({ active }) => (
+  <button
+    className={`${
+      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+  >
+    
+   View Blog
+  </button>
+)}
+</Menu.Item>
+</div>
+<div className="px-1 py-1">
+<Menu.Item>
+{({ active }) => (
+  <button
+    className={`${
+      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+     onClick={ ()=> handleDelete(index._id)}
+  >
+    
+    Delete
+  </button>
+)}
+</Menu.Item>
+</div>
+</Menu.Items>
+</Transition>
+</Menu>
+ 
+</td>
                     </tr>
               
           

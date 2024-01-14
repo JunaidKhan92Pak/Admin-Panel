@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Fragment,useState, useEffect } from 'react';
 import { Menu,Transition } from '@headlessui/react'
 import TextEditor from "./TextEditor"
@@ -6,10 +8,45 @@ const AllPost =()=>{
   
   const [data, setData] = useState([]);
 const [showPopupEdit, setShowPopupEdit] = useState(true);
+const [showPopupConf, setShowPopupConf] = useState(false);
+
+// const [showPopupMess, setShowPopupMess] = useState(false);
+const [showDelId, setShowDelId] = useState();
 
 
+//Notify
+
+const showToastUpdate = () => {
+  toast.success("Successfully Post Update!", {
+    position: toast.POSITION.TOP_RIGHT,
+    className: "toast-message",
+  })};
+
+
+  const showToastWarning = () => {
+
+toast.warning("Warning Notification !", {
+
+  position: toast.POSITION.BOTTOM_RIGHT,
+    className: "toast-message",
+
+}) };
+
+  
+  const showToastDelete = () => {
+    toast.success("Post Delete Successfull !", {
+      position: toast.POSITION.TOP_RIGHT,
+      className: "toast-message",
+    })};
+    
+    
+
+
+    //latest update after anyaction
+    
   useEffect(() => {
     // Function to fetch data from the API
+    
     const fetchData = async () => {
       try {
         const response = await fetch('/api/blog/');
@@ -20,11 +57,10 @@ const [showPopupEdit, setShowPopupEdit] = useState(true);
         console.error('Error fetching data:', error);
       }
     };
-    
     // Call the fetch data function
     fetchData();
     // console.log(data)
-}, []); 
+}, [data]); 
 // Empty dependency array ensures the effect runs only once after initial render
 
     
@@ -37,6 +73,8 @@ const [showPopupEdit, setShowPopupEdit] = useState(true);
       await fetch(`/api/blog/${itemId}`, {
         method: 'DELETE',
       });
+      showToastDelete();
+      setShowPopupConf(false)
 
       // Check if the deletion was successful (status code 204)
          } catch (error) {
@@ -46,17 +84,8 @@ const [showPopupEdit, setShowPopupEdit] = useState(true);
 
 
 
-
-
-
   //Edit form Pages nefor and after submit or update blog page
    
-
-
-
-
-
-
 const [image, setImage] = useState('');
 const [title, setTitle] = useState('');
 const [content, setContent] = useState('');
@@ -69,7 +98,7 @@ const [author, setAuthor] = useState('');
 const [MyId, setMyId] = useState('');
 
 
-//Edit button effect
+//Edit button effect className: "toast-message",
 
 const handleEdit=(index)=>{
 
@@ -92,19 +121,25 @@ console.log(index)
 useEffect(() => {
   // This effect will run when the component mounts
     // You can use it to show the popup after a delay, for example
-    const timeoutId = setTimeout(() => {
-      setShowPopupEdit(false);
-    }, 2000); // Show popup after 2000 milliseconds (2 seconds)
+    setShowPopupEdit(false);
+    // const timeoutId = setTimeout(() => {
+    // }, 1000); // Show popup after 2000 milliseconds (2 seconds)
     
     // Clean up the timeout to avoid memory leaks
-    return () => clearTimeout(timeoutId);
-  }, []); // Empty dependency array means the effect runs only once when the component mounts
+    // return () => clearTimeout(timeoutId);
+  }, [setShowPopupEdit]); // Empty dependency array means the effect runs only once when the component mounts
 
   const closePopup = () => {
     setShowPopupEdit(true);
   };
   
 
+  const confPopup = (del_id) => {
+    showToastWarning();
+    setShowDelId(del_id);
+    setShowPopupConf(true);
+  };
+  
   // LAst Submitted
   
   const handleSubmit = async (e) => {
@@ -134,7 +169,15 @@ useEffect(() => {
     if (response.ok) {  
       // Handle success
       console.log('Data submitted successfully');
+      showToastUpdate()
       setShowPopupEdit(false)
+
+      // setShowPopupMess(true)
+
+
+      // setTimeout(() => {
+      //   setShowPopupMess(false);
+      // }, 2000);
     } else {
       // Handle error
       console.error('Failed to submit data');
@@ -147,146 +190,180 @@ useEffect(() => {
   return (
 
 
-<div>
+<Fragment>
+    
+    {showPopupEdit && (
+    <div className="fixed w-[100%] h-full bg-[#9898983f]  " >
+<section className="h-[600px] w-[75%] overflow-hidden overflow-y-auto backdrop-blur-md left-5 p-8 absolute">
+ 
+<div className="w-full bg-[#f5f5f5cb] p-5 flex justify-center items-center">
+<form onSubmit={handleSubmit}>
+<button onClick={()=>{setShowPopupEdit(false)}} className=' px-5 h-fit w-fit hover:bg-blue-700 bg-gray-900 text-white font-extrabold absolute text-xl right-10'>X</button>
+<div >  
+<h1 className="text-2xl font-extrabold">Update Post</h1> 
+</div>
+<div>  
+<section aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
+<label className="py-2 text-">Featured Image</label>
+<section className="h-full overflow-auto p-8 w-full  flex flex-col">
+<header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+ <input id="hidden-input" type="file" onChange={(e) => setImage(e.target.files[0])} multiple className="" />
+</header>
+</section>
+</section>
 
-      {showPopupEdit && (
-        <div className="popup absolute bg-white flex justify-center items-center">
+<div className="-mx-3 flex gap-2 flex-wrap">
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="fName" className="mb-3 block text-base font-medium ">
+Title
+</label>
+<input type="text" name="fName" id="fName" placeholder="What going on ..." value={title}
+onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+</div>
+</div>
+<div className="w-full px-3">
 
-          
-           <form onSubmit={handleSubmit}>
-  <div>
-    <div className="">
-      <h1 className="text-2xl font-extrabold">Add New Post</h1>
-    </div>
-    <div>  
-    <section aria-label="File Upload Modal"  className="relative h-full flex flex-col rounded-md">
-        <label className="py-2 text-">Featured Image</label>
-        <section className="h-full overflow-auto p-8 w-full  flex flex-col">
-          <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-            <input id="hidden-input" type="file" onChange={(e) => setImage(e.target.files[0])} multiple className="" />
-          </header>
-        </section>
-      </section>
+<TextEditor handleContent={setContent} />
+
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+Choose Category
+</label>
+<select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
+onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+<option value="Programming">Programming</option>
+<option value="Artificial-inteligence">Artificial-inteligence</option>
+<option value="Cryptography">Cryptography</option>
+</select>
+</div>
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+isFeatured
+</label>
+<select type="text" name="lName" id="lName" placeholder="My First Blog"  defaultValue={featured}
+onChange={(e) => setFeatured(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+<option value={true}>Yes</option>
+<option value={false}>No</option>
+</select>
+</div>
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+Status
+</label>
+<select type="text" name="lName" id="lName" defaultValue={status}
+onChange={(e) => setStatus(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+<option value={true}>Active</option>
+<option value={false}>In-Active</option>
+</select>
+</div>
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+Meta Title
+</label>
+<input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metaTitle}
+onChange={(e) => setMetaTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+</div>
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+Meta Description
+</label>
+<input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
+onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+</div>
+
+</div>
+<div className="w-full px-3">
+<div className="mb-5">
+<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+Meta Author (default:devzox)
+</label>
+<input type="text" name="lName" id="lName" placeholder="devzox"  value={author}
+onChange={(e) => setAuthor(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+</div>
+
+</div>
+</div>
+   
+   <div>
+   {/* component */}
+   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
+
+</div>
+
+
+<div className="space-x-2">
+      
+<button onClick={()=>{setShowPopupEdit(false)}} className=" bg-gray-900 hover:bg-blue-700 mt-4 py-3 px-8 text-center text-base font-semibold outline-none text-white">
+cancle
+</button>
+<button className="hover:shadow-form  bg-gray-900 text-white hover:bg-blue-700 mt-4 py-3 px-8 text-center text-base font-semibold outline-none">
+Submit
+</button>
+
+</div>
+
+</div>
+
+   </form> 
+</div>
+
+   </section>
+
+</div>
+)}
+
+
+{showPopupConf && (
+    <div className="fixed w-[100%] h-full  bg-[#9898983f]  " >
+  <section className="h-[600px] w-[75%] overflow-hidden flex justify-center items-center overflow-y-auto backdrop-blur-md left-5 p-8 absolute">
+  <div className=" bg-[#f5f5f5cb] border-2 border-solid border-black p-5 w-[50%] h-[30%] flex flex-col justify-center items-center">
+
+  <h1 className="font-medium">Are you sure you want to delete?</h1>
+  <div className='flex space-x-10 py-7'>
+  <button onClick={()=>{ handleDelete(showDelId)}}>Sure</button>
+  <button onClick={()=>{ setShowPopupConf(false) }}>Not Sure</button>
   
-  <div className="-mx-3 flex gap-2 flex-wrap">
-      <div className="w-full px-3">
-      <div className="mb-5">
-      <label htmlFor="fName" className="mb-3 block text-base font-medium text-[#07074D]">
-      Title
-      </label>
-      <input type="text" name="fName" id="fName" placeholder="What going on ..." value={title}
-      onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-      </div>
-      </div>
-      <div className="w-full px-3">
-
-      <TextEditor handleContent={setContent} />
-
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-       Choose Category
-        </label>
-        <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
-        onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
-          <option value="Programming">Programming</option>
-          <option value="Artificial-inteligence">Artificial-inteligence</option>
-          <option value="Cryptography">Cryptography</option>
-        </select>
-        </div>
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-       isFeatured
-        </label>
-        <select type="text" name="lName" id="lName" placeholder="My First Blog"  defaultValue={featured}
-        onChange={(e) => setFeatured(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
-         <option value={true}>Yes</option>
-          <option value={false}>No</option>
-        </select>
-        </div>
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-      Status
-        </label>
-        <select type="text" name="lName" id="lName" defaultValue={status}
-        onChange={(e) => setStatus(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
-          <option value={true}>Active</option>
-          <option value={false}>In-Active</option>
-        </select>
-        </div>
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-      <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-        Meta Title
-        </label>
-        <input type="text" name="lName" id="lName" placeholder="My First Blog"  value={metaTitle}
-        onChange={(e) => setMetaTitle(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-        </div>
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-        Meta Description
-        </label>
-        <input type="text" name="lName" id="lName" placeholder="hi its blog description"  value={description}
-        onChange={(e) => setDescription(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-        </div>
-        
-      </div>
-      <div className="w-full px-3">
-      <div className="mb-5">
-        <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
-        Meta Author (default:devzox)
-        </label>
-        <input type="text" name="lName" id="lName" placeholder="devzox"  value={author}
-        onChange={(e) => setAuthor(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-        </div>
-        
-      </div>
-          </div>
-              
-              <div>
-              {/* component */}
-              <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
-          
   </div>
   
-  
-  <div>
-      <button onClick={()=>setShowPopupEdit(false)}  className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
-  cancle
-  </button>
-  <button className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
-  Submit
-  </button>
-  
   </div>
-  
-      </div>
-    </div>
-              </form> 
+  </section>
+</div>
+)}
+
+<div >
 
 
-        </div>
-      )}
-    
-    
 
+
+{/* 
+{showPopupMess && (
+           <div class="flex absolute items-center bg-blue-500 text-white text-sm font-bold px-4 py-3" role="alert">
+  <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
+  <p> Your Post Updated.</p>
+</div>
+        )} */}
 
 
 
     <section className="container px-4 mx-auto">
+    
      <div className="sm:flex sm:items-center sm:justify-between">
      <div className="">
     <h1 className="text-xl">All Post</h1>
     </div>
-
+      
+      
           {/* <h2 className="text-lg font-medium">Files uploaded</h2> */}
           <div className="flex items-center mt-4 gap-x-3">
             {/* <button className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white border rounded-lg sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-white dark:border-gray-700">
@@ -308,7 +385,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="flex flex-col mt-6">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -351,8 +428,8 @@ useEffect(() => {
                   <img src={index.fImage} className='w-20 h-20' /> </td>
                   <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.title}</td>
                   <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.category}</td>
-                  <td  className="px-4 py-4 text-sm whitespace-nowrap">{index.status? "Active": "in-Active"}</td>
-                  <td  className="px-4 py-4 text-sm whitespace-nowrap">{index.isFeatured? "Yes" :"No" }</td>
+                  <td  className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap">{index.status? "Active": "in-Active"}</td>
+                  <td  className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap">{index.isFeatured? "Yes" :"No" }</td>
 
                   
                   <td className="px-4 py-4 text-sm whitespace-nowrap">
@@ -411,16 +488,22 @@ useEffect(() => {
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                     onClick={ ()=> handleDelete(index._id)}
+                     onClick={ ()=> confPopup(index._id)}
                   >
+                    {/* handleDelete(index._id) */}
                     
                     Delete
                   </button>
+                  
                 )}
               </Menu.Item>
+  
+
             </div>
           </Menu.Items>
         </Transition>
+  <ToastContainer />
+
       </Menu>
                  
                 </td>
@@ -469,7 +552,7 @@ useEffect(() => {
       </section>
       
         </div>
-
+        </Fragment>
     )
 }
 
