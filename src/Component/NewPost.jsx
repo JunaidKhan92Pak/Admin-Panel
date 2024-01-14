@@ -1,8 +1,20 @@
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import TextEditor from "./TextEditor"
 import { useState } from 'react';
 
 const NewPost =()=>{
-      
+  
+  //tostify
+   const showToastAdd = () => {
+     toast.success("New Post Add Successfull !", {
+       position: toast.POSITION.TOP_RIGHT,
+       className: "toast-message",
+      },
+     
+    )};
+  
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -11,7 +23,10 @@ const NewPost =()=>{
   const [status, setStatus] = useState(true);
   const [metaTitle, setMetaTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState(''); 
+  
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +45,7 @@ const NewPost =()=>{
     formData.append('metaAuthor', author);
     
     console.log("on new post ", formData);
+    
     try {
       const response = await fetch('/api/blog/', {
         method: 'POST',
@@ -38,6 +54,7 @@ const NewPost =()=>{
 
       if (response.ok) {  
         // Handle success
+        showToastAdd();
         console.log('Data submitted successfully');
       } else {
         // Handle error
@@ -230,7 +247,7 @@ const NewPost =()=>{
   <button className="hover:shadow-form rounded-md bg-[#6A64F1] mt-4 py-3 px-8 text-center text-base font-semibold text-white outline-none">
   Submit
   </button>
-  
+  <ToastContainer />
   </div>
   
       </div>

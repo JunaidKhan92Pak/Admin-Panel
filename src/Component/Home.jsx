@@ -1,14 +1,50 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 // import TopNav from '../../../Components/Admin/TopNav'
 import { useNavigate } from 'react-router-dom'
 // import { useSearchParams } from 'react-router-dom'
 
+
 const Home = () => {
   const Navigate = useNavigate()
   
+  // const [catenum, setcatenum] = useState([]);
+  // const [users, setusers] = useState([]);
+  
+  // const [usernum, setusernum] = useState();
+  const [posts, setposts] = useState();
+  
+  useEffect(() => {
+    // Function to fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/blog/');
+        const result = await response.json();
+        console.log("data from api to show all post", result.data)
+        
+        // setcatenum(result.data.map(i=>i.category));
+        setposts(result.data.length);
+        
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    
+    // Call the fetch data function
+    // console.log(data)
+}, [setposts]); 
+
+  
+console.log(posts)
+
+  
+
+
   return (
     <div>
-    <div class="relative min-h-screen lg:flex">
+    <div className="relative min-h-screen lg:flex">
 <div className="fixed inset-0 z-20 transition-opacity bg-black opacity-30 lg:hidden" />
         <main id="content" className="flex-1 pb-12 py-4 space-y-6 overflow-y-auto bg-gray-100 lg:h-screen md:space-y-8">
   {/* <TopNav /> */}
@@ -44,7 +80,7 @@ const Home = () => {
           <path d="M26 44C26 40.625 30.5 40.625 32.75 38.375C33.875 37.25 30.5 37.25 30.5 31.625C30.5 27.8754 31.9996 26 35 26C38.0004 26 39.5 27.8754 39.5 31.625C39.5 37.25 36.125 37.25 37.25 38.375C39.5 40.625 44 40.625 44 44" stroke="#6F52ED" strokeWidth={2} strokeLinecap="square" />
         </svg>
         <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">62</h3>
+          <h3 className="text-2xl font-medium text-gray-800">{posts}</h3>
           <p className="mt-1 text-sm text-gray-500">Total Post</p>
         </div>
       </div>
@@ -59,7 +95,7 @@ const Home = () => {
           <path d="M38 37L44 31M33 34L36 37L33 34Z" stroke="#21B8C7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">6</h3>
+          <h3 className="text-2xl font-medium text-gray-800">7</h3>
           <p className="mt-1 text-sm text-gray-500">Total Category</p>
         </div>
       </div>
@@ -73,7 +109,7 @@ const Home = () => {
           <path d="M44 39V42H41" stroke="#FF4C61" strokeWidth={2} strokeLinecap="square" />
         </svg>
         <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">9</h3>
+          <h3 className="text-2xl font-medium text-gray-800">2</h3>
           <p className="mt-1 text-sm text-gray-500">Total Users</p>
         </div>
       </div>
