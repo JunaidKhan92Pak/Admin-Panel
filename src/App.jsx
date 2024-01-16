@@ -8,7 +8,7 @@ import Home from "./Component/Home";
 import Navbar from "./Component/Navbar";
 import NewPost from "./Component/NewPost";
 import AllPost from "./Component/AllPost";
-import Users from "./Component/Users";
+import Category from "./Component/Category";
 import TextEditor from "./Component/TextEditor";
 import Messages from "./Component/Messages";
 
@@ -34,7 +34,7 @@ const App = () => {
         <Route path="newpost" element={<NewPost/>} />
         <Route path="allpost" element={<AllPost/>} />
         <Route path="editor" element={<TextEditor/>} />
-        <Route path="users" element={<Users />} />
+        <Route path="Category" element={<Category />} />
         <Route path="messages" element={<Messages />} />
 
        </Route>
