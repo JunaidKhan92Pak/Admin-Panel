@@ -11,7 +11,7 @@ import AllPost from "./Component/AllPost";
 import Category from "./Component/Category";
 import TextEditor from "./Component/TextEditor";
 import Messages from "./Component/Messages";
-
+import Users from './Component/Users';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
@@ -34,8 +34,10 @@ const App = () => {
         <Route path="newpost" element={<NewPost/>} />
         <Route path="allpost" element={<AllPost/>} />
         <Route path="editor" element={<TextEditor/>} />
+        <Route path="users" element={< Users />} />
         <Route path="Category" element={<Category />} />
         <Route path="messages" element={<Messages />} />
+
 
        </Route>
       </Route> 

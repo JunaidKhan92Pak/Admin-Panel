@@ -6,23 +6,23 @@ import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const Navigate = useNavigate()
-  
   // const [catenum, setcatenum] = useState([]);
   // const [users, setusers] = useState([]);
   
   // const [usernum, setusernum] = useState();
-  const [posts, setposts] = useState();
+  const [posts, setposts] = useState([]);
   
   useEffect(() => {
     // Function to fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/blog/');
+        const response = await fetch('/api/detail');
         const result = await response.json();
-        console.log("data from api to show all post", result.data)
+        console.log("data from api to show all post", result)
         
         // setcatenum(result.data.map(i=>i.category));
-        setposts(result.data.length);
+        setposts(result);
+        console.log(result)
         
 
       } catch (error) {
@@ -34,19 +34,22 @@ const Home = () => {
     
     // Call the fetch data function
     // console.log(data)
-}, [setposts]); 
+}, []); 
 
-  
-console.log(posts)
+console.log(":::")
 
-  
+
+
 
 
   return (
+
     <div>
+    
     <div className="relative min-h-screen lg:flex">
 <div className="fixed inset-0 z-20 transition-opacity bg-black opacity-30 lg:hidden" />
         <main id="content" className="flex-1 pb-12 py-4 space-y-6 overflow-y-auto bg-gray-100 lg:h-screen md:space-y-8">
+
   {/* <TopNav /> */}
   <section className="flex flex-col w-full px-6 md:justify-between md:items-center md:flex-row">
     <div>
@@ -72,6 +75,7 @@ console.log(posts)
       </button>
     </div>
   </section>
+
   <section className="grid grid-cols-1 gap-8 px-6 xl:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 ">
     <div className="flex items-center px-6 py-8 bg-white rounded-lg shadow-md shadow-gray-200 ">
       <div className="flex items-center -mx-2">
@@ -79,8 +83,8 @@ console.log(posts)
           <circle cx={35} cy={35} r={35} fill="#713BDB" fillOpacity="0.05" />
           <path d="M26 44C26 40.625 30.5 40.625 32.75 38.375C33.875 37.25 30.5 37.25 30.5 31.625C30.5 27.8754 31.9996 26 35 26C38.0004 26 39.5 27.8754 39.5 31.625C39.5 37.25 36.125 37.25 37.25 38.375C39.5 40.625 44 40.625 44 44" stroke="#6F52ED" strokeWidth={2} strokeLinecap="square" />
         </svg>
-        <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">{posts}</h3>
+        <div className="mx-2" key={posts}>
+          <h3 className="text-2xl font-medium text-gray-800">{posts.blog}</h3>
           <p className="mt-1 text-sm text-gray-500">Total Post</p>
         </div>
       </div>
@@ -94,8 +98,8 @@ console.log(posts)
           <path d="M37 39C37.5523 39 38 38.5523 38 38C38 37.4477 37.5523 37 37 37C36.4477 37 36 37.4477 36 38C36 38.5523 36.4477 39 37 39Z" stroke="#21B8C7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           <path d="M38 37L44 31M33 34L36 37L33 34Z" stroke="#21B8C7" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">7</h3>
+        <div className="mx-2" key={{posts}}>
+          <h3 className="text-2xl font-medium text-gray-800">{posts.category}</h3>
           <p className="mt-1 text-sm text-gray-500">Total Category</p>
         </div>
       </div>
@@ -108,8 +112,8 @@ console.log(posts)
           <path d="M43.405 41.405L44 42" stroke="#FF4C61" strokeWidth={2} strokeLinecap="round" />
           <path d="M44 39V42H41" stroke="#FF4C61" strokeWidth={2} strokeLinecap="square" />
         </svg>
-        <div className="mx-2">
-          <h3 className="text-2xl font-medium text-gray-800">2</h3>
+        <div className="mx-2" key={posts}>
+          <h3 className="text-2xl font-medium text-gray-800">{posts.register}</h3>
           <p className="mt-1 text-sm text-gray-500">Total Users</p>
         </div>
       </div>

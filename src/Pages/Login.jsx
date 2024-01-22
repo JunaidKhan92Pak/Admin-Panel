@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useAuth} from '../Hooks/useAuth'
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login =()=>{
+  
+  
   const {LoginUser} = useAuth();
   const Navigate = useNavigate()
   
@@ -12,6 +15,26 @@ const Login =()=>{
     password: '',
   });
   
+
+   const showToastLoginError = () => {
+      
+    toast.error("Invalid email or password !", {
+  position: toast.POSITION.TOP_CENTER,
+});
+
+  };
+      
+   const showToastError = () => {
+      
+    toast.error("Error Notification !", {
+  position: toast.POSITION.TOP_CENTER,
+});
+
+  };
+
+
+
+
   
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -26,8 +49,7 @@ const Login =()=>{
     e.preventDefault()
       console.log( "123 check")
 
-
-   await fetch("/api/admin/login",{
+   await fetch("/api/admin/login/",{
         method:"POST",  
         headers:{
           Accept:"application/json",
@@ -42,23 +64,25 @@ const Login =()=>{
 
 if(response.status==200){
 
+  LoginUser();
 let Userdata= await response.json() 
   console.log('User Login successfully',Userdata,document.cookie);
-
-  LoginUser()
   
-  Navigate("/")  
+  Navigate("/");  
 }else{
+  showToastLoginError();
   console.log('User invalid');
-  Navigate("/login")  
+  console.log(formData);
+
+  Navigate("/login");  
 
 }
 
 
   }).catch((error) => {
         // Handle registration failure
-        console.log("data ma error ha")
-        
+        // console.log("data ma error ha")
+        showToastError();
         console.error('Error login user', error);
       });
       
@@ -107,15 +131,21 @@ let Userdata= await response.json()
 
           <div>
             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input required type="password" name="password" id="password"   value={formData.password}
+            <input required type="password" name="password" id="password" value={formData.password}
             onChange={handleChange} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
           </div>
         
+<ToastContainer />
           
           <button type="submit" className="w-full text-white bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:border-blue-500  ">Login</button>
+
+
+{/* 
           <p className="text-sm font-light text-gray-500 dark:text-gray-400">
             Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
-          </p>
+          </p> */}
+
+
         </form>
  
         </div>

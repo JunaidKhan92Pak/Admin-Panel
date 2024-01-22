@@ -2,18 +2,63 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TextEditor from "./TextEditor"
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 const NewPost =()=>{
   
+  const [categ, setCateg] = useState([]);
+
+  
+  const showToastAdd = () => {
+    toast.success("New Post Add Successfull !", {
+      position: toast.POSITION.TOP_RIGHT,
+      className: "toast-message",
+     },
+    
+   )};
+
+      
+   const showToastError = () => {
+      
+    toast.error("Error Notification !", {
+  position: toast.POSITION.TOP_CENTER,
+});
+
+  };
+
+
+
+
+  useEffect(() => {
+    // Function to fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/category/');
+        const result = await response.json();
+        
+        // setcatenum(result.data.map(i=>i.category));
+        setCateg(result.data);
+        
+        
+      } catch (error) {
+        showToastError();
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    
+    // Call the fetch data function
+    
+  }, []); 
+  
+  
+  // console.log(categ.map((i)=>i._id),"here check it")
+  
+
+
   //tostify
-   const showToastAdd = () => {
-     toast.success("New Post Add Successfull !", {
-       position: toast.POSITION.TOP_RIGHT,
-       className: "toast-message",
-      },
-     
-    )};
+
   
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
@@ -24,30 +69,35 @@ const NewPost =()=>{
   const [metaTitle, setMetaTitle] = useState('');
   const [description, setDescription] = useState('');
   const [author, setAuthor] = useState(''); 
-  
+
+  // console.log(":::",categ.map((i)=>{
+  //   i.name
+  // }))
   
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("handleSubmit")
-    
+    console.log(category,title)
     // Create FormData object to send files and other data
     const formData = new FormData();
+    formData.append('category', category);
     formData.append('fImage', image);
     formData.append('title', title);
     formData.append('content', content);
-    formData.append('category', category);
     formData.append('isFeatured', featured);
     formData.append('status', status);
     formData.append('metaTitle', metaTitle);
     formData.append('metaDescription', description);
     formData.append('metaAuthor', author);
-    
+  
+
     console.log("on new post ", formData);
     
+    
     try {
-      const response = await fetch('/api/blog/', {
+      const response = await fetch('/api/blog', {
         method: 'POST',
         body: formData,
       });
@@ -161,12 +211,31 @@ const NewPost =()=>{
       <label htmlFor="lName" className="mb-3 block text-base font-medium text-[#07074D]">
        Choose Category
         </label>
+
+
         <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
         onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
-          <option value="Programming">Programming</option>
-          <option value="Artificial-inteligence">Artificial-inteligence</option>
-          <option value="Cryptography">Cryptography</option>
+{
+  categ.map((i)=>{
+    
+    
+    return(
+   <>
+   
+   <option value="Programming">Programming</option> 
+
+  <option value={i._id} >{i.name}</option>
+   </>
+  )
+
+ 
+  })
+}
+
+
+          {/* <option value="Cryptography">Cryptography</option> */}
         </select>
+
         </div>
       </div>
       <div className="w-full px-3">
