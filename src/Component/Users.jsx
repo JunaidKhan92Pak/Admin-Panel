@@ -251,7 +251,7 @@ onChange={(e) => setPhone(e.target.value)} className="w-full rounded-md border b
 
 <div className="w-full px-16">
 <div className="mb-5">
-<label htmlFor="lName" className="mb-3 block text-base font-medium ">
+<label htmlFor="lName" className="mb-3 block text-base font-medium " >
 password
 </label>
 <input type="text" name="fName" id="fName" placeholder="What going on ..." value={password} 

@@ -11,7 +11,6 @@ const Users =()=>{
   const [showPopupNewCate, setShowPopupNewCate] = useState(false);
   const [showPopupEdit, setShowPopupEdit] = useState(false);
 
-
 //Notify
 
 const showToastUpdate = () => {
@@ -39,7 +38,7 @@ const showToastUpdate = () => {
   const showToastErrorFormSubmit = () => {
 
     toast.error("Submition Error !", {
-  position: toast.POSITION.TOP_CENTER,
+  position: toast.POSITION.TOP_RIGHT,
 });
 
   };
@@ -49,7 +48,7 @@ const showToastUpdate = () => {
   const showToastError = () => {
 
     toast.error("Error Notification !", {
-  position: toast.POSITION.TOP_CENTER,
+  position: toast.POSITION.TOP_RIGHT,
 });
 
   };
@@ -125,7 +124,6 @@ const [MyId, setMyId] = useState('');
 
 const handleEdit=(index)=>{
 
-  setImage(index.image)
   setName(index.name)
   setFeatured(index.featured)
   setMyId(index._id)
@@ -161,8 +159,11 @@ console.log(index)
     
     // Create FormData object to send files and other data
     const formData = new FormData();
-  formData.append('image', image);
-  formData.append('name', name);
+ 
+    // if(image)
+    formData.append('image', image);
+  
+    formData.append('name', name);
   formData.append('featured', featured);
   // formData.append('status', status);
   console.log(formData)
@@ -224,13 +225,13 @@ try {
     console.log('Data submitted successfully');
     showToastUpdate()
     setShowPopupEdit(false)
-    showToastErrorFormSubmit();
     // setShowPopupMess(true)
 
     // setTimeout(() => {
     //   setShowPopupMess(false);
     // }, 2000);
   } else {
+    showToastErrorFormSubmit();
 
     // Handle error
     console.error('Failed to submit data');
@@ -238,8 +239,8 @@ try {
 } catch (error) {
   showToastError()
   console.error('Error submitting data:', error);
-}
 };
+}
 
 
 
@@ -348,8 +349,6 @@ Submit
 )}
 
 
-
-
 {showPopupEdit && (
     <div className="fixed w-[100%] h-full bg-[#9898983f]  " >
 <section className="h-[600px] w-[75%] overflow-hidden overflow-y-auto backdrop-blur-md left-5 p-8 absolute">
@@ -426,7 +425,7 @@ onChange={(e) => setStatus(e.target.value)} className="w-full rounded-md border 
 <div className="space-x-2">
       
 <button onClick={()=>{setShowPopupEdit(false)}} className=" bg-gray-900 hover:bg-blue-700 mt-4 py-3 px-8 text-center text-base font-semibold outline-none text-white">
-cancle
+cancel
 </button>
 <button className="hover:shadow-form  bg-gray-900 text-white hover:bg-blue-700 mt-4 py-3 px-8 text-center text-base font-semibold outline-none">
 Submit
