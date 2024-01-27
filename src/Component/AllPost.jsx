@@ -7,11 +7,16 @@ import TextEditor from "./TextEditor"
 const AllPost =()=>{
   
   const [data, setData] = useState([]);
-const [showPopupEdit, setShowPopupEdit] = useState(true);
+const [showPopupEdit, setShowPopupEdit] = useState(false);
 const [showPopupConf, setShowPopupConf] = useState(false);
+const [categ, setCateg] = useState([]);
+
+
 
 // const [showPopupMess, setShowPopupMess] = useState(false);
 const [showDelId, setShowDelId] = useState();
+
+
 
 
 //Notify
@@ -41,8 +46,41 @@ toast.warning("Warning Notification !", {
     
     
 
+//view and then Edit id of category 
 
-    //latest update after anyaction
+useEffect(() => {
+  // Function to fetch data from the API
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/category/');
+      const result = await response.json();
+      
+      // setcatenum(result.data.map(i=>i.category));
+      setCateg(result.data);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      console.log("error fetch py ha")
+    }
+  };
+
+  fetchData();
+  
+  // Call the fetch data function
+  
+}, []); 
+
+    
+
+
+
+
+
+
+
+
+
+    //latest update after any action
     
   useEffect(() => {
     // Function to fetch data from the API
@@ -51,16 +89,18 @@ toast.warning("Warning Notification !", {
       try {
         const response = await fetch('/api/blog/');
         const result = await response.json();
-        console.log("data from api to show all post", result.data)
+        console.log("data from api to show all post", result.data.category)
         setData(result.data);
+
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data update :', error);
       }
     };
+
     // Call the fetch data function
     fetchData();
     // console.log(data)
-}, [data]); 
+}, []); 
 // Empty dependency array ensures the effect runs only once after initial render
 
     
@@ -102,10 +142,10 @@ const [MyId, setMyId] = useState('');
 
 const handleEdit=(index)=>{
 
+  setCategory(index.category)
   setImage(index.fImage)
   setTitle(index.title)
   setContent(index.content)
-  setCategory(index.category)
   setFeatured(index.isFeatured)
   setStatus(index.status)
   setMetaTitle(index.meta.title)
@@ -148,10 +188,10 @@ useEffect(() => {
     
     // Create FormData object to send files and other data
     const formData = new FormData();
+  formData.append('category', category);
   formData.append('fImage', image);
   formData.append('title', title);
   formData.append('content', content);
-  formData.append('category', category);
   formData.append('isFeatured', featured);
   formData.append('status', status);
   formData.append('metaTitle', metaTitle);
@@ -173,8 +213,6 @@ useEffect(() => {
       setShowPopupEdit(false)
 
       // setShowPopupMess(true)
-
-
       // setTimeout(() => {
       //   setShowPopupMess(false);
       // }, 2000);
@@ -232,12 +270,60 @@ onChange={(e) => setTitle(e.target.value)} className="w-full rounded-md border b
 <label htmlFor="lName" className="mb-3 block text-base font-medium ">
 Choose Category
 </label>
-<select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
-onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
-<option value="Programming">Programming</option>
-<option value="Artificial-inteligence">Artificial-inteligence</option>
-<option value="Cryptography">Cryptography</option>
-</select>
+{/* <select  type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
+        onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+{
+  categ.map((i)=>{
+    
+    
+    return(
+   <>
+   
+   
+   <option value="Programming">Programming</option> 
+
+  <option value={i._id} >{i.name}</option>
+   
+   </>
+  )
+ 
+  })
+}
+
+
+        </select> */}
+          {/* <option value="Cryptography">Cryptography</option> */}
+
+          <select type="text" name="lName" id="lName" placeholder="My First Blog"  value={category}
+        onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
+    
+    
+    {
+  
+      categ.map((i)=>{
+    
+    
+    return(
+   <>
+   
+   <option value="Programming">Programming</option> 
+
+  <option value={i._id} >{i.name}</option>
+   
+   </>
+  )
+
+ 
+  })
+}
+    
+          {/* <option value="65a6abbc626d5583be212099">Programming</option> */}
+          {/* <option value="Artificial-inteligence">Artificial-inteligence</option> */}
+          {/* <option value="Cryptography">Cryptography</option> */}
+        </select>
+
+
+
 </div>
 </div>
 <div className="w-full px-3">
@@ -413,6 +499,7 @@ Submit
                       <th scope="col" className="relative py-3.5 px-4 dark:text-gray-400">
                         <span className="sr-only">Edit</span>
                       </th>
+
                     </tr>
                   </thead>
                   
@@ -426,11 +513,14 @@ Submit
                  
                   <td className="px-12 py-4 text-sm font-normal dark:text-gray-300 whitespace-nowrap">
                   <img src={index.fImage} className='w-20 h-20' /> </td>
-                  <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.title}</td>
-                  <td  className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap">{index.category}</td>
+                  <td  className="px-4 py-4 text-sm dark text-gray-300 whitespace-nowrap">{index.title}</td>
+ 
+                  {/* key={index.category._id} */}
+
+                  <td  className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap">{index.category?.name}</td>
+
                   <td  className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap">{index.status? "Active": "in-Active"}</td>
                   <td  className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap">{index.isFeatured? "Yes" :"No" }</td>
-
                   
                   <td className="px-4 py-4 text-sm whitespace-nowrap">
 
