@@ -232,7 +232,6 @@ try {
     // }, 2000);
   } else {
     showToastErrorFormSubmit();
-
     // Handle error
     console.error('Failed to submit data');
   }

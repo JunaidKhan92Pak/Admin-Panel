@@ -58,7 +58,7 @@ const Login =()=>{
       })
       .then( async(response) =>{
      
-        console.log( response.status )
+        console.log( response.status)
 
 if(response.status==200){
 
